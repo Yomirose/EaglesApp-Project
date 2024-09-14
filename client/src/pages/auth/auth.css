@@ -1,0 +1,102 @@
+.auth_container{
+    background-color: rgb(203, 236, 225);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.auth_wrapper{
+    width: 50;
+    height: 30;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3.5rem;
+}
+
+.auth_right > h1{
+    color: rgb(41, 131, 131);
+    font-size: 40px;
+}
+
+.auth_right p{
+    color:black;
+    margin-top: 10px;
+    min-width: 275px;
+    line-height: 27px;
+    font-size: 20px;
+}
+
+.auth_left{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background-color: #fff;
+    padding: 50px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.auth_left > input{
+    outline: none;
+    border: 1px solid gray;
+    border-radius: 8px;
+    font-size: 18px;
+    border-bottom: 1px solid #888;
+    padding: 10px
+}
+
+.submit_btn{
+    background-color: rgb(41, 131, 131);
+    color: #ffff;
+    outline: none;
+    border:  1px solid transparent;
+    font-size: 18px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    
+}
+
+.submit_btn:hover{
+    background-color: #ffff;
+    color: rgb(41, 131, 131);
+    border-color: rgb(41, 131, 131);
+}
+
+.error{
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 50px;
+    background-color: red;
+    color: #ffff;
+    min-width: 150px;
+    min-height: 40px;
+    padding: 0.25rem 0.25rem;
+    word-wrap: break-word;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register{
+    cursor: pointer;
+    text-align: center;
+    font-size: 20px;
+}
+
+.register > a{
+    text-decoration: none;
+}
+
+.register > a:hover{
+    color: green;
+}
+
+.login{
+    font-size: 20px;
+    text-align: center;
+}

@@ -25,29 +25,29 @@ const handleLogout = () => {
 
   return (
     <div className='container'>
-      <div className='wrapper'>
+      <div className='navbar'>
         <div className='left'>
           <Link to="/" >
             <h2>EaglesApp</h2>
           </Link>
         </div>
         <div className='socialShare'>
-        <div>
+        <div className='facebook_icon'>
         <FacebookShareButton url={shareUrl} >
         <FacebookIcon size={32} round={true} />
       </FacebookShareButton>
         </div>
-      <div>
+      <div className='twitter_icon'>
       <TwitterShareButton url={shareUrl} >
         <TwitterIcon size={32} round={true} />
       </TwitterShareButton>
       </div>
-      <div>
+      <div className='whatapp_icon'>
       <WhatsappShareButton url={shareUrl} >
         <WhatsappIcon size={32} round={true} />
       </WhatsappShareButton>
       </div>
-      <div>
+      <div className='linkedin_icon'>
       <LinkedinShareButton url={shareUrl}>
         <LinkedinIcon size={32} round={true} />
       </LinkedinShareButton>

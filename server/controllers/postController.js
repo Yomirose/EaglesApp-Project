@@ -10,14 +10,18 @@ const getPost = async (req, res) => {
     }
 }
 
-const getUserPost = async (req, res) => {
+const getUserPosts = async (req, res) => {
     try {
-        const userPosts = await Post.find({ userId: req.params.id })
-        return res.status(200).json(userPosts)
+        const userPosts = await Post.find({ userId: req.params.id });
+        if (userPosts == false || userPosts.length <= 0) {
+            throw new Error("No posts from this user");
+        } else {
+            return res.status(200).json(userPosts);
+        }
     } catch (error) {
-        return res.status(500).json(error.message)
+        return res.status(500).json(error.message);
     }
-}
+};
 
 const createPost = async (req, res) => {
     try {
@@ -120,22 +124,27 @@ const dislikePost = async (req, res) => {
 
 const getTimelinePosts = async (req, res) => {
     try {
-        const currentUser = await User.findById(req.user.id)
+        const currentUser = await User.findById(req.user.id);
+        if (!currentUser) {
+            return res.status(404).json({ msg: "User not found" });
+        }
+
         const userPosts = await Post.find({ userId: currentUser._id });
-        const friendsPosts = await Promise.all(
+        const friendPosts = await Promise.all(
             currentUser.followings.map((friendId) => {
                 return Post.find({ userId: friendId });
             })
-        )
-        const allPosts = userPosts.concat(...friendsPosts).sort((a, b) => b.createdAt - a.createdAt);
+        );
 
+        const allPosts = userPosts.concat(...friendPosts).sort((a, b) => b.createdAt - a.createdAt);
         return res.status(200).json(allPosts);
-    } catch (error) {
-        return res.status(500).json(error.message);
+    } catch (err) {
+        res.status(500).json(err.message);
     }
-}
+};
+
 module.exports = {
-    getPost, getUserPost, getTimelinePosts,
+    getPost, getUserPosts, getTimelinePosts,
     createPost, updatePost, deletePost,
     likePost, dislikePost
 };
