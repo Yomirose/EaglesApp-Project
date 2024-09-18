@@ -1,19 +1,20 @@
-const {
-    getUser, getAll, updateUser, deleteUser,
-    getUserFriends, followUser, unfollowUser
-} = require("../controllers/userContoller");
+const express = require("express");
+const registerUser = require("../controllers/registerUser");
+const verifyEmail = require("../controllers/verifyEmail");
+const verifyPassword = require("../controllers/verifyPassword");
+const userDetails = require("../controllers/userDetails");
+const logout = require("../controllers/logout");
+const updateUserDetails = require("../controllers/updateUserDetails");
+const router = express.Router();
 
-const verifyToken = require("../middlewares/auth");
-const userRouter = require("express").Router();
 
-userRouter.get("/findAll", getAll);
-userRouter.get("/find/:id", getUser);
-userRouter.get("/find/userfriends/:id", getUserFriends);
+router.post("/register", registerUser);
+router.post("/email", verifyEmail );
+router.post("/password", verifyPassword);
 
-userRouter.put("/update/:id", verifyToken, updateUser)
-userRouter.put("/follow/:id", verifyToken,followUser);
-userRouter.put("/unfollow/:id", verifyToken, unfollowUser);
+router.get("/user-details", userDetails);
+router.get("/logout", logout);
 
-userRouter.delete("/delete/:id", verifyToken, deleteUser);
+router.post("/update-user", updateUserDetails);
 
-module.exports = userRouter;
+module.exports = router;
