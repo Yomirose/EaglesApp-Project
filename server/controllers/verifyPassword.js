@@ -20,7 +20,7 @@ async function verifyEmail(req, res) {
         
         if (!verifyPassword) {
             return res.status(400).json({
-                message: "Wrong credentials",
+                message: "Wrong password",
                 error: true
             });
         };
@@ -38,13 +38,10 @@ async function verifyEmail(req, res) {
             secure: true 
         };
 
-        // const cookieOptions = {
-        //     httpOnly: true, 
-        //     secure: process.env.NODE_ENV === 'production' 
-        // };
+       
 
         return res.cookie("token", token, cookieOptions).status(200).json({
-            message: "User successfully logged in", 
+            message: "Login successfully!", 
             token: token, 
             success: true
         });

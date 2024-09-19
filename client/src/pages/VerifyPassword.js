@@ -4,10 +4,14 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import toast from 'react-hot-toast';
 import Avatar from '../componets/Avatar';
+import { useDispatch } from "react-redux";
+import { setUser } from '../redux/userSlice';
 
 const VerifyPassword = () => {
-const navigate = useNavigate()
-const location = useLocation()
+  const [data, setData] = useState({ password: ""});
+  const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useDispatch();
 
 console.log("location", location.state )
 
@@ -16,10 +20,7 @@ useEffect(()=>{
     navigate("/email")
   }
 })
-  const [data, setData] = useState({
-    password: ""
-  });
-
+  
   const handleOnChange = (e)=>{
     const {name, value} = e.target
 
@@ -36,11 +37,22 @@ useEffect(()=>{
     e.stopPropagation()
     
     const URL = `${process.env.REACT_APP_BACKEND_URL}/api/password`;
-    // console.log(URL)
 
     try {
-      const response = await axios.post(URL, data)
+      const response = await axios({
+        method: "post",
+        url: URL,
+      data: {
+        userId: location?.state?._id,
+        password: data.password
+      },
+      withCredentials: true
+      })
       toast.success(response.data.message)
+
+      if(response.data.success){
+        dispatch(setUser)
+      }
 
       if(response.data.success){
         setData({
