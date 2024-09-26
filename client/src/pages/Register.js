@@ -53,8 +53,6 @@ const navigate = useNavigate()
     e.stopPropagation()
     
     const URL = `${process.env.REACT_APP_BACKEND_URL}/api/register`
-    console.log(URL)
-
     try {
       const response = await axios.post(URL, data)
       toast.success(response.data.msg)

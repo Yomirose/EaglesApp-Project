@@ -3,7 +3,7 @@ import Register from "../pages/Register";
 import VerifyEmail from "../pages/VerifyEmail";
 import VerifyPassword from "../pages/VerifyPassword";
 import Home from "../pages/Home";
-import MessagePage from "../componets/MessagePage";
+import MessagePage from "../components/MessagePage";
 import App from "../App";
 import AuthLayOuts from "../layout";
 import ForgotPassword from "../pages/ForgotPassword";
