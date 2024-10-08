@@ -55,31 +55,58 @@ const EdithUserDetails = ({onClose, user}) => {
         })
     };
 
+    // const handleSubmitForm = async (e) => {
+    //     e.preventDefault();
+    //     e.stopPropagation();
+
+    //     try {
+    //         const URL = `${process.env.REACT_APP_BACKEND_URL}/api/update-user`
+
+    //         const response = await axios({
+    //             method: "post",
+    //             url: URL,
+    //             data: data,
+    //             withCredentials: true
+    //         });
+    //         // console.log("response", response)
+    //         toast.success(response?.data?.message)
+
+    //         if(response.data.success){
+    //             dispatch(setUser(response.data.data));
+    //             onClose();
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //         toast.error(error.response?.data?.message || error.message || "An error occurred");
+    //         // toast.error(error)
+    //     }
+    // }
+
     const handleSubmitForm = async (e) => {
         e.preventDefault();
         e.stopPropagation();
-
+     
         try {
-            const URL = `${process.env.REACT_APP_BACKEND_URL}/api/update-user`
-
-            const response = await axios({
-                method: "post",
-                url: URL,
-                data: data,
-                withCredentials: true
-            });
-            console.log("response", response)
-            toast.success(response?.data?.message)
-
-            if(response.data.success){
+            const URL = `${process.env.REACT_APP_BACKEND_URL}/api/update-user`;
+            
+            const payload = {
+                name: data.name,
+                profile_pic: data.profile_pic,
+            };
+     
+            const response = await axios.post(URL, payload, { withCredentials: true });
+            toast.success(response?.data?.message);
+            
+            if (response.data.success) {
                 dispatch(setUser(response.data.data));
                 onClose();
             }
         } catch (error) {
-            console.log(error)
-            toast.error(error)
+            console.log(error);
+            toast.error(error.response?.data?.message || error.message || "An error occurred");
         }
-    }
+     };
+     
 
   return (
     <div className='fixed top-0 bottom-0 right-0 left-0 bg-slate-600 bg-opacity-40 flex justify-center items-center z-20'>

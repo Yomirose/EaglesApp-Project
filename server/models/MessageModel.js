@@ -16,6 +16,11 @@ const MessageSchema = new mongoose.Schema({
     seen: {
         type: Boolean,
         default: false
+    },
+    msgByUserId: {
+        type: mongoose.Schema.ObjectId,
+        required: true,
+        ref: "User"
     }  
 }, {timestamps: true})
 module.exports = mongoose.model("Message", MessageSchema)

@@ -13,7 +13,8 @@
 .arrow{
   @apply flex justify-center items-center my-4 text-slate-500 
 }
-.logo{
-  @apply lg:flex justify-center flex-col ml-32 gap-2 hidden
-}
+
+
+
+
 

@@ -62,7 +62,7 @@ const Home = () => {
   const basePath = location.pathname === "/"
 
   return (
-    <div className='grid lg:grid-cols-5 h-screen max-h-screen '>
+    <div className='grid lg:grid-cols-[300px_1fr] h-screen max-h-screen '>
       <section className={`bg-white ${!basePath && "hidden"} lg:block`}>
         <Sidebar />
       </section>
@@ -70,7 +70,7 @@ const Home = () => {
         <Outlet />
       </section>
 
-      <div className={`justify-center items-center flex-col gap-2 hidden ${!basePath ? "hidden" : "lg:flex "}`}>
+      <div className={` justify-center items-center flex-col gap-2 hidden ${!basePath ? "hidden" : "lg:flex "}`}>
         <div className='items-center flex '>
           <img className='mb-2' src={logo} alt='logo' width={100} height={50} />
           <h1 className='font-bold mb-22 text-5xl text-primary mr-2'>eaglesApp</h1>
