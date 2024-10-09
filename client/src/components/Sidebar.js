@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { IoChatbubbleEllipses } from "react-icons/io5";
 import { FaUserPlus } from "react-icons/fa";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { BiLogOut } from "react-icons/bi";
 import Avatar from "./Avatar";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import EdithUserDetails from './EdithUserDetails';
 import { FiArrowUpLeft } from "react-icons/fi";
 import "../App.css";
 import SearchUser from './SearchUser';
 import { FaImage } from "react-icons/fa6";
 import { FaVideo } from "react-icons/fa6";
+ import { logout } from '../redux/userSlice';
 // import userDetails from '../../../server/controllers/userDetails';
 
 const Sidebar = () => {
@@ -19,6 +20,8 @@ const Sidebar = () => {
     const [allUser, setAllUser] = useState([]);
     const [openSearchUser, setOpenSearchUser] = useState(false);
     const socketConnection = useSelector(state => state?.user?.socketConnection);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(()=>{
         if(socketConnection){
@@ -52,6 +55,12 @@ const Sidebar = () => {
         }
     }, [socketConnection, user])
 
+    const handleLogout = () => {
+        dispatch(logout())
+        navigate("/email")
+        localStorage.clear()
+    }
+
   return (
     <div className='w-full h-full grid grid-cols-[48px_1fr] bg-white z-5'>
         <div className='flex flex-col justify-between bg-slate-100 w-12 h-full rounded-tr-lg rounded-br-lg py-5 text-slate-700'>
@@ -79,7 +88,7 @@ const Sidebar = () => {
                         userId={user?._id}
                     />
                 </button>
-                <button className='w-12 h-12 flex justify-center mt-5 items-center cursor-pointer hover:bg-slate-200 rounded' title='logout'>
+                <button className='w-12 h-12 flex justify-center mt-5 items-center cursor-pointer hover:bg-slate-200 rounded' title='logout' onClick={handleLogout}>
                     <span className='-ml-3'>
                         <BiLogOut 
                             size={25}
@@ -143,7 +152,12 @@ const Sidebar = () => {
                                     <p className='text-ellipsis line-clamp-1'>{conv?.lastMsg?.text}</p>
                                 </div>
                             </div>
-                            <p className='flex justify-center items-center text-xs w-6 h-6 ml-auto p-1 bg-primary text-white font-semibold rounded-full'>{conv?.unseenMsg}</p>
+                            {
+                                Boolean(conv?.unseenMsg) && (
+                                    <p className='flex justify-center items-center text-xs w-6 h-6 ml-auto p-1 bg-primary text-white font-semibold rounded-full'>{conv?.unseenMsg}</p>
+                                )   
+                            }
+
                         </NavLink>
                     )
                  })

@@ -101,13 +101,13 @@ const MessagePage = () => {
     if(socketConnection){
       socketConnection.emit("message-page", params.userId);
 
+      socketConnection.emit("seen",params.userId )
+
       socketConnection.on("message-user", (data)=>{
 
         setUserData(data)
       });
       socketConnection.on("message", (data)=>{
-
-        console.log("all message data", data)
         
         setAllMessage(data)
       })
@@ -115,8 +115,7 @@ const MessagePage = () => {
   },[socketConnection, params?.userId, user])
 
   const handleOnchangeText = (e) => {
-    const {name, value} = e.target
-
+    const {value} = e.target
     setMessage(preve => {
       return{
         ...preve,
@@ -129,8 +128,6 @@ const MessagePage = () => {
     e.preventDefault()
     if(message.text || message.imageUrl || message.videoUrl){
       if(socketConnection){
-
-        console.log("Sender ID:", user?._id); 
 
         socketConnection.emit("new message", {
           sender: user?._id,
@@ -190,7 +187,7 @@ const MessagePage = () => {
             allMessage.map((msg,index)=>{
 
               return(
-                <div key={index} className={`bg-white p-1 py-2 my-2 rounded shadow-lg w-fit max-w-md  ${user._id === msg.msgByUserId._id ? "ml-auto bg-teal-300" : ""}`}>
+                <div key={index} className={`p-1 py-2 my-2 rounded shadow-lg w-fit max-w-md  ${user._id === msg.msgByUserId._id ? "ml-auto bg-teal-100" : "bg-white"}`}>
                   
                  <div className='w-full'>
                     {
