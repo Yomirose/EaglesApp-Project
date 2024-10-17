@@ -22,9 +22,12 @@ const PORT = 5000;
 
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log("MongoDB connected successfully"))
-    .catch(err => console.log("Failed to connect to MongoDB", err.message));
+    .catch(err => {
+        console.log("Failed to connect to MongoDB", err.message);  
+    });
 
 
+app.use(express.static('public'));
 app.use(express.json());
 app.use(cookiesParser());
 app.use(cors({
