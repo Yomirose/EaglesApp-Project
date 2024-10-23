@@ -45,18 +45,11 @@ async function verifyEmail(req, res) {
             maxAge: 24 * 60 * 60 * 1000 
         };
 
-        res.cookie("token", token, cookieOptions);
-
-        return res.status(200).json({
+        return res.cookie("token", token, cookieOptions).status(200).json({
             message: "Login successfully!", 
+            token: token, 
             success: true
         });
-
-        // return res.cookie("token", token, cookieOptions).status(200).json({
-        //     message: "Login successfully!", 
-        //     token: token, 
-        //     success: true
-        // });
 
     } catch (error) {
         return res.status(500).json({ error: error.message });

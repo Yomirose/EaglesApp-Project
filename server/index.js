@@ -34,7 +34,7 @@ app.use(cookiesParser());
 
 app.use(cors({
     origin: process.env.FRONTEND_URL, 
-    Credentials: true
+    credentials: true
 }));
 
 // Socket.io configuration
@@ -42,7 +42,7 @@ const io = new Server(server, {
     cors: {
         origin: process.env.FRONTEND_URL,
         methods: ["GET", "POST"],
-        Credentials: true
+        credentials: true
     },
     transports: ['polling'],
 });
