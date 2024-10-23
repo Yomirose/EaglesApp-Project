@@ -20,19 +20,21 @@ const server = http.createServer(app);
 const PORT = 5000;
 
 
-mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log("MongoDB connected successfully"))
     .catch(err => {
         console.log("Failed to connect to MongoDB", err.message);  
     });
 
 
+
 app.use(express.static('public'));
 app.use(express.json());
 app.use(cookiesParser());
+
 app.use(cors({
     origin: process.env.FRONTEND_URL, 
-    credentials: true
+    Credentials: true
 }));
 
 // Socket.io configuration
@@ -40,8 +42,9 @@ const io = new Server(server, {
     cors: {
         origin: process.env.FRONTEND_URL,
         methods: ["GET", "POST"],
-        credentials: true
-    }
+        Credentials: true
+    },
+    transports: ['polling'],
 });
 
 const onlinUser = new Set();

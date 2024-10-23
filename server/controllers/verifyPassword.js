@@ -33,18 +33,30 @@ async function verifyEmail(req, res) {
 
         const token = await jwt.sign(tokenData, process.env.JWT_SECRET_KEY, { expiresIn: "1d" });
 
+        // const cookieOptions = {
+        //     httpOnly: true, 
+        //     secure: true 
+        // };
+
         const cookieOptions = {
             httpOnly: true, 
-            secure: true 
+            secure: process.env.NODE_ENV === "production", 
+            sameSite: "none", 
+            maxAge: 24 * 60 * 60 * 1000 
         };
 
-       
+        res.cookie("token", token, cookieOptions);
 
-        return res.cookie("token", token, cookieOptions).status(200).json({
+        return res.status(200).json({
             message: "Login successfully!", 
-            token: token, 
             success: true
         });
+
+        // return res.cookie("token", token, cookieOptions).status(200).json({
+        //     message: "Login successfully!", 
+        //     token: token, 
+        //     success: true
+        // });
 
     } catch (error) {
         return res.status(500).json({ error: error.message });
