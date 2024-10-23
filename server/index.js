@@ -31,10 +31,9 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(cookiesParser());
 app.use(cors({
-    origin: [process.env.FRONTEND_URL, 'http://localhost:3000'], 
+    origin: process.env.FRONTEND_URL, 
     credentials: true
 }));
-
 
 // Socket.io configuration
 const io = new Server(server, {
