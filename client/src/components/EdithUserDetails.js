@@ -61,7 +61,7 @@ const EdithUserDetails = ({onClose, user}) => {
         e.stopPropagation();
      
         try {
-            const URL = `${REACT_APP_BACKEND_URL}/api/update-user`;
+            const URL = `${process.env.REACT_APP_BACKEND_URL}/api/update-user`;
             
             const payload = {
                 name: data.name,
