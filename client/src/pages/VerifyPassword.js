@@ -33,7 +33,7 @@ const VerifyPassword = () => {
     e.preventDefault();
     e.stopPropagation();
 
-    const URL = `${https://eaglesapp-backend.onrender.com}/api/password`;
+    const URL = `${REACT_APP_BACKEND_URL}/api/password`;
 
     setLoading(true); 
 
