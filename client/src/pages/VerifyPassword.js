@@ -33,7 +33,7 @@ const VerifyPassword = () => {
     e.preventDefault();
     e.stopPropagation();
 
-    const URL = `${REACT_APP_BACKEND_URL}/api/password`;
+    const URL = `${process.env.REACT_APP_BACKEND_URL}/api/password`;
 
     setLoading(true); 
 
