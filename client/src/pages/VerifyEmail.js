@@ -29,7 +29,7 @@ const navigate = useNavigate()
     e.preventDefault()
     e.stopPropagation()
     
-    const URL = `${REACT_APP_BACKEND_URL}/api/email`
+    const URL = `${process.env.REACT_APP_BACKEND_URL}/api/email`
 
     setLoading(true);
     
