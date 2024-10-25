@@ -29,7 +29,7 @@ const navigate = useNavigate()
     e.preventDefault()
     e.stopPropagation()
     
-    const URL = `${https://eaglesapp-backend.onrender.com}/api/email`
+    const URL = `${REACT_APP_BACKEND_URL}/api/email`
 
     setLoading(true);
     
