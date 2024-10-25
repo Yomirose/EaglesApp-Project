@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { PiUserCircle } from "react-icons/pi";
 import axios from "axios";
 import toast from 'react-hot-toast';
+import Loading from '../components/Loading';
 
 const VerifyEmail = () => {
 const navigate = useNavigate()
@@ -10,6 +11,8 @@ const navigate = useNavigate()
   const [data, setData] = useState({
     email: ""
   });
+
+  const [loading, setLoading] = useState(false);
 
   const handleOnChange = (e)=>{
     const {name, value} = e.target
@@ -27,6 +30,8 @@ const navigate = useNavigate()
     e.stopPropagation()
     
     const URL = `${process.env.REACT_APP_BACKEND_URL}/api/email`
+
+    setLoading(true);
     
     try {
       const response = await axios.post(URL, data) 
@@ -42,6 +47,8 @@ const navigate = useNavigate()
       }
     } catch (error) {
       toast.error(error?.response?.data?.message)
+    }finally {
+      setLoading(false); 
     }
   };
   return (
@@ -71,9 +78,13 @@ const navigate = useNavigate()
          />
       </div>
 
-      <button className='bg-primary font-bold text-white text-xl leading-3 tracking-wider mb-5 py-3 px-3 hover:bg-secondary rounded mt-3'>
-        Let's Continue
-        </button>
+      <button
+            className='bg-primary font-bold text-white text-xl leading-3 tracking-wider mb-5 py-3 px-3 hover:bg-secondary rounded mt-3'
+            type="submit"
+            disabled={loading} 
+          >
+            {loading ? <Loading /> : "Let's Continue"}
+          </button>
     </form>
     <p className='text-xl mb-3 text-center'>New User?<Link to={"/register"} className='hover:text-secondary font-semibold text-primary hover:underline'>Register</Link></p>
     </div>

@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import Avatar from '../components/Avatar';
 import { useDispatch } from "react-redux";
 import { setToken } from '../redux/userSlice';
+import Loading from '../components/Loading'; 
 
 const VerifyPassword = () => {
   const [data, setData] = useState({ password: "" });
@@ -24,7 +25,7 @@ const VerifyPassword = () => {
 
     setData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -34,26 +35,29 @@ const VerifyPassword = () => {
 
     const URL = `${process.env.REACT_APP_BACKEND_URL}/api/password`;
 
+    setLoading(true); 
+
     try {
-      setLoading(true); 
-      const response = await axios.post(URL, {
-        userId: location?.state?._id,
-        password: data.password
-      }, {
-        withCredentials: true
+      const response = await axios({
+        method: "post",
+        url: URL,
+        data: {
+          userId: location?.state?._id,
+          password: data.password,
+        },
+        withCredentials: true,
       });
 
       toast.success(response.data.message);
 
       if (response.data.success) {
-        dispatch(setToken(response.data.token));
-        localStorage.setItem("token", response.data.token);
+        dispatch(setToken(response?.data?.token));
+        localStorage.setItem("token", response?.data?.token);
         setData({ password: "" });
         navigate("/");
       }
     } catch (error) {
-      const message = error?.response?.data?.message || "An error occurred"; 
-      toast.error(message);
+      toast.error(error?.response?.data?.message || "An error occurred"); 
     } finally {
       setLoading(false); 
     }
@@ -63,7 +67,7 @@ const VerifyPassword = () => {
     <div className='mt-3'>
       <div className='bg-white w-full max-w-md mx-auto shadow-md rounded overflow-hidden p-4'>
         <div className='w-fit mx-auto mb-2 flex justify-center items-center flex-col'>
-          <Avatar 
+          <Avatar
             width={70}
             height={70}
             name={location?.state?.name}
@@ -78,7 +82,7 @@ const VerifyPassword = () => {
         <form className='grid gap-4' onSubmit={handleSubmitForm}>
           <div className='flex flex-col gap-1'>
             <label className='text-[20px]' htmlFor="password">Password:</label>
-            <input 
+            <input
               className="bg-slate-100 px-2 py-2 focus:outline-primary"
               type="password"
               id="password"
@@ -90,11 +94,12 @@ const VerifyPassword = () => {
             />
           </div>
 
-          <button 
+          <button
             className='bg-primary font-bold text-white text-xl leading-3 tracking-wider mb-5 py-3 px-3 hover:bg-secondary rounded mt-3'
-            disabled={loading} // Disable button during loading
+            type="submit"
+            disabled={loading} 
           >
-            {loading ? "Logging in..." : "Login"} {/* Loading text */}
+            {loading ? <Loading /> : "Login"}
           </button>
         </form>
 
