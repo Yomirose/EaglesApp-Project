@@ -61,7 +61,7 @@ const EdithUserDetails = ({onClose, user}) => {
         e.stopPropagation();
      
         try {
-            const URL = `${https://eaglesapp-backend.onrender.com}/api/update-user`;
+            const URL = `${REACT_APP_BACKEND_URL}/api/update-user`;
             
             const payload = {
                 name: data.name,
