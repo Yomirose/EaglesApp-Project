@@ -207,7 +207,7 @@ const MessagePage = () => {
                           controls
                           muted
                           autoPlay
-                          className='w-full h-full object-scale-down'
+                          className='w-64 h-64 object-scale-down'
                         />
                       )
                     }  

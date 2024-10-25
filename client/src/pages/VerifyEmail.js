@@ -5,6 +5,7 @@ import axios from "axios";
 import toast from 'react-hot-toast';
 import Loading from '../components/Loading';
 
+
 const VerifyEmail = () => {
 const navigate = useNavigate()
 
@@ -12,7 +13,8 @@ const navigate = useNavigate()
     email: ""
   });
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); 
+
 
   const handleOnChange = (e)=>{
     const {name, value} = e.target
@@ -47,10 +49,11 @@ const navigate = useNavigate()
       }
     } catch (error) {
       toast.error(error?.response?.data?.message)
-    }finally {
+    } finally {
       setLoading(false); 
     }
   };
+
   return (
     <div className='mt-3'>
     <div className='bg-white w-full max-w-md  mx-auto shadow-md rounded overflow-hidden p-4 '>
@@ -84,7 +87,8 @@ const navigate = useNavigate()
             disabled={loading} 
           >
             {loading ? <Loading /> : "Let's Continue"}
-          </button>
+      </button>
+
     </form>
     <p className='text-xl mb-3 text-center'>New User?<Link to={"/register"} className='hover:text-secondary font-semibold text-primary hover:underline'>Register</Link></p>
     </div>
