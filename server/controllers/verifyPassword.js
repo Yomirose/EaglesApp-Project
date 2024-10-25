@@ -2,6 +2,7 @@ const UserModel = require("../models/UserModel");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+
 async function verifyEmail(req, res) {
     try {
         const { password, userId } = req.body;

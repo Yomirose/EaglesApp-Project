@@ -26,17 +26,13 @@ mongoose.connect(process.env.MONGO_URL)
         console.log("Failed to connect to MongoDB", err.message);  
     });
 
-
-
-app.use(express.static('public'));
 app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 app.use(cookiesParser());
-
 app.use(cors({
-    origin: process.env.FRONTEND_URL, 
+    origin: process.env.FRONTEND_URL,
     credentials: true
 }));
-
 
 // Socket.io configuration
 const io = new Server(server, {
@@ -44,8 +40,7 @@ const io = new Server(server, {
         origin: process.env.FRONTEND_URL,
         methods: ["GET", "POST"],
         credentials: true
-    },
-    transports: ['polling'],
+    }
 });
 
 const onlinUser = new Set();
@@ -66,8 +61,16 @@ io.on("connection", async (socket) => {
     io.emit("onlinUser", Array.from(onlinUser));
 
     socket.on("message-page", async (userId) => {
-        console.log("userId", userId);
+        if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
+            console.error("Invalid userId:", userId);
+            return socket.emit("error", "Invalid user ID")
+        }
+
         const userDetails = await UserModel.findById(userId).select("-password")
+
+        if (!userDetails) {
+            return socket.emit("error", "User not found");
+        }
 
         const payload = {
             _id: userDetails?._id,
@@ -100,6 +103,13 @@ io.on("connection", async (socket) => {
 
     // new message
     socket.on("new message", async (data) => {
+
+        if (!data?.sender || !data?.receiver || !mongoose.Types.ObjectId.isValid(data.sender) || !mongoose.Types.ObjectId.isValid(data.receiver)) {
+            console.error("Invalid sender or receiver ID:", data);
+
+            console.error("Invalid sender or receiver ID:", data.sender, data.receiver);
+            return socket.emit("error", "Invalid sender or receiver ID");
+        }
         
         let conversation = await ConversationModel.findOne({
             "$or": [
@@ -114,6 +124,7 @@ io.on("connection", async (socket) => {
                 receiver: data?.receiver
             })
             conversation = await createConversation.save();
+
         }
 
         const messages = new MessageModel({
@@ -197,7 +208,11 @@ io.on("connection", async (socket) => {
 });
 
 // API endpoint
+app.use("/images", express.static("public/images"));
+
 app.use("/api", router);
+
+
 
 // Start the server
 server.listen(PORT, () => {
