@@ -33,15 +33,10 @@ async function verifyEmail(req, res) {
 
         const token = await jwt.sign(tokenData, process.env.JWT_SECRET_KEY, { expiresIn: "1d" });
 
-        // const cookieOptions = {
-        //     httpOnly: true, 
-        //     secure: true 
-        // };
-
         const cookieOptions = {
             httpOnly: true, 
             secure: process.env.NODE_ENV === "production", 
-            sameSite: "none", 
+            sameSite: "Lax", 
             maxAge: 24 * 60 * 60 * 1000 
         };
 
