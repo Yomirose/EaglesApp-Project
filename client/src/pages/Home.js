@@ -18,7 +18,7 @@ const Home = () => {
 
   const fetchUserDetails = useCallback(async () => {
     try {
-      const URL = `${process.env.REACT_APP_BACKEND_URL}/api/user-details`;
+      const URL = `${https://eaglesapp-backend.onrender.com}/api/user-details`;
       const response = await axios({
         url: URL,
         withCredentials: true
@@ -40,7 +40,7 @@ const Home = () => {
   }, [fetchUserDetails]);
 
   useEffect(() =>{
-     const socketConnection = io(process.env.REACT_APP_BACKEND_URL,{
+     const socketConnection = io(https://eaglesapp-backend.onrender.com,{
       auth: {
         token: localStorage.getItem("token")
       }
