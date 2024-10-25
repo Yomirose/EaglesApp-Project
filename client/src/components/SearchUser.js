@@ -13,7 +13,7 @@ const SearchUser = ({onClose}) => {
     const [search, setSearch] = useState("");
 
     const handleSearchUser = useCallback(async () => {
-        const URL = `${process.env.REACT_APP_BACKEND_URL}/api/search-user`;
+        const URL = `${https://eaglesapp-backend.onrender.com}/api/search-user`;
         try {
             setLoading(true);
             const response = await axios.post(URL, { search });
