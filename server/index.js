@@ -33,7 +33,7 @@ app.use(express.json());
 app.use(cookiesParser());
 
 app.use(cors({
-    origin: process.env.FRONTEND_URL, 
+    origin: https://eaglesapp-frontend.onrender.com, 
     credentials: true
 }));
 
@@ -41,7 +41,7 @@ app.use(cors({
 // Socket.io configuration
 const io = new Server(server, {
     cors: {
-        origin: process.env.FRONTEND_URL,
+        origin: https://eaglesapp-frontend.onrender.com,
         methods: ["GET", "POST"],
         credentials: true
     },
