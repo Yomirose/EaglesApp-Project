@@ -40,7 +40,7 @@ const Home = () => {
   }, [fetchUserDetails]);
 
   useEffect(() =>{
-     const socketConnection = io(process.env.REACT_APP_BACKEND_URL,{
+     const socketConnection = io({
       auth: {
         token: localStorage.getItem("token")
       }

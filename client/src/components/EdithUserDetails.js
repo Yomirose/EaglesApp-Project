@@ -55,6 +55,10 @@ const EdithUserDetails = ({onClose, user}) => {
         })
     };
 
+<<<<<<< HEAD
+=======
+   
+>>>>>>> 090ee7c24a750c8d962ed4ecfb600194dfd1cff6
     const handleSubmitForm = async (e) => {
         e.preventDefault();
         e.stopPropagation();
