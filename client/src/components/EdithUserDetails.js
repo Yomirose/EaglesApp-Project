@@ -55,33 +55,6 @@ const EdithUserDetails = ({onClose, user}) => {
         })
     };
 
-    // const handleSubmitForm = async (e) => {
-    //     e.preventDefault();
-    //     e.stopPropagation();
-
-    //     try {
-    //         const URL = `${process.env.REACT_APP_BACKEND_URL}/api/update-user`
-
-    //         const response = await axios({
-    //             method: "post",
-    //             url: URL,
-    //             data: data,
-    //             withCredentials: true
-    //         });
-    //         // console.log("response", response)
-    //         toast.success(response?.data?.message)
-
-    //         if(response.data.success){
-    //             dispatch(setUser(response.data.data));
-    //             onClose();
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //         toast.error(error.response?.data?.message || error.message || "An error occurred");
-    //         // toast.error(error)
-    //     }
-    // }
-
     const handleSubmitForm = async (e) => {
         e.preventDefault();
         e.stopPropagation();
