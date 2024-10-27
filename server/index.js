@@ -16,9 +16,7 @@ dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
-
-const PORT = 5000;
-
+const PORT = process.env.PORT || 5000;
 
 mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log("MongoDB connected successfully"))
@@ -52,7 +50,6 @@ io.on("connection", async (socket) => {
     const user = await getUserDetailsFromToken(token);
 
     socket.join(user?._id?.toString());
-
 
     if (!onlinUser.has(user?._id)) {
         onlinUser.add(user?._id?.toString());
@@ -200,7 +197,6 @@ io.on("connection", async (socket) => {
 
     })
 
-
     socket.on("disconnect", () => {
         onlinUser.delete(user?._id?.toString())
         console.log("User disconnected:", socket.id);
@@ -213,8 +209,9 @@ app.use("/images", express.static("public/images"));
 app.use("/api", router);
 
 
-
 // Start the server
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+
