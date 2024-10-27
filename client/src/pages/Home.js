@@ -18,6 +18,7 @@ const Home = () => {
       const URL = `${process.env.REACT_APP_BACKEND_URL}/api/user-details`;
       const response = await axios({
         url: URL,
+        method: 'GET',
         withCredentials: true
       });
 
@@ -38,9 +39,9 @@ const Home = () => {
 
   useEffect(() =>{
      const socketConnection = io(process.env.REACT_APP_BACKEND_URL,{
-      auth: {
-        token: localStorage.getItem("token")
-      }
+      auth: {token: localStorage.getItem("token")},
+      transports: ['websocket'],
+      secure: true
      });
 
      socketConnection.on("onlinUser",(data)=>{
