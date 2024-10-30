@@ -37,28 +37,48 @@ const Home = () => {
     fetchUserDetails();
   }, [fetchUserDetails]);
 
-  useEffect(() =>{
-     const socketConnection = io(process.env.REACT_APP_WEBSOCKET_URL,{
-      auth: {token: localStorage.getItem("token")},
-      transports: ['websocket'],
-      secure: true
-     });
+  // useEffect(() =>{
+  //    const socketConnection = io(process.env.REACT_APP_WEBSOCKET_URL,{
+  //     auth: {token: localStorage.getItem("token")},
+  //     transports: ['websocket'],
+  //     secure: true
+  //    });
 
-     socketConnection.on("connect_error", (error) => {
-      console.error("Connection error:", error);
+  //    socketConnection.on("connect_error", (error) => {
+  //     console.error("Connection error:", error);
+  //   });
+
+  //    socketConnection.on("onlinUser",(data)=>{
+  //     console.log(data);
+  //     dispatch(setOnlineUser(data))
+  //    });
+
+  //    dispatch(setSocketConnection(socketConnection))
+
+  //    return ()=>{
+  //     socketConnection.disconnect()
+  //    }
+  // }, [dispatch])
+
+  
+  useEffect(() =>{
+    const socketConnection = io(process.env.REACT_APP_BACKEND_URL,{
+     auth: {
+       token: localStorage.getItem("token")
+     }
     });
 
-     socketConnection.on("onlinUser",(data)=>{
-      console.log(data);
-      dispatch(setOnlineUser(data))
-     });
+    socketConnection.on("onlinUser",(data)=>{
+     console.log(data);
+     dispatch(setOnlineUser(data))
+    });
 
-     dispatch(setSocketConnection(socketConnection))
+    dispatch(setSocketConnection(socketConnection))
 
-     return ()=>{
-      socketConnection.disconnect()
-     }
-  }, [dispatch])
+    return ()=>{
+     socketConnection.disconnect()
+    }
+ }, [dispatch])
 
   const basePath = location.pathname === "/"
 
