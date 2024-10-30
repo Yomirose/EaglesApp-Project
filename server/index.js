@@ -5,17 +5,21 @@ const cors = require("cors");
 const router = require("./routes/user");
 const cookiesParser = require("cookie-parser");
 const http = require("http");
+// const https = require("http");
 const { Server } = require("socket.io");
 const getUserDetailsFromToken = require("./helpers/getUserDetailsFromToken");
 const UserModel = require("./models/UserModel");
 const ConversationModel = require("./models/ConversationModel");
 const MessageModel = require("./models/MessageModel");
 const getConversation = require("./helpers/getConversation");
+const path = require("path");
 
 dotenv.config();
-
 const app = express();
+
 const server = http.createServer(app);
+
+// const server = https.createServer(app);
 const PORT = process.env.PORT || 5000;
 
 mongoose.connect(process.env.MONGO_URL)
@@ -31,6 +35,24 @@ app.use(cors({
     origin: process.env.FRONTEND_URL,
     credentials: true
 }));
+
+// ...........deployment code ...........//
+const __dirname1 = path.resolve();
+if (process.env.NODE_ENV === "production") {
+
+    app.use(express.static(path.join(__dirname1,"../client/build")));
+
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname1, "../client/build", "index.html"));
+    })
+
+} else {
+    app.get("/", (req, res) => {
+        res.send("API is Running Successfully")
+    });
+}
+// ...........deployment code ...........//
+
 
 // Socket.io configuration
 const io = new Server(server, {
