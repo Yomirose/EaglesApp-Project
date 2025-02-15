@@ -28,13 +28,17 @@ mongoose.connect(process.env.MONGO_URL)
         console.log("Failed to connect to MongoDB", err.message);  
     });
 
+    // middleware
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookiesParser());
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
+    origin: process.env.FRONTEND_URL || "https://yourfrontenddomain.com",
     credentials: true
 }));
+
+
 
 // ...........deployment code ...........//
 // const __dirname1 = path.resolve();
