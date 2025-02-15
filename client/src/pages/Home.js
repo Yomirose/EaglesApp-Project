@@ -18,67 +18,102 @@ const Home = () => {
       const URL = `${process.env.REACT_APP_BACKEND_URL}/api/user-details`;
       const response = await axios({
         url: URL,
-        method: 'GET',
-        withCredentials: true
+        method: "GET",
+        withCredentials: true, // Ensure credentials are sent
       });
-
-      dispatch(setUser(response.data.data))
-
-      if (response.data.data.logout) {
+  
+      console.log("User Details Response:", response.data);
+  
+      if (response.data?.success) {
+        dispatch(setUser(response.data.data));
+      } else {
+        console.warn("User is being logged out due to invalid session.");
         dispatch(logout());
         navigate("/email");
       }
     } catch (error) {
-      console.log("error", error);
+      console.error(" Error fetching user details:", error);
+      dispatch(logout());
+      navigate("/email");
     }
   }, [dispatch, navigate]);
+  
+
+  // const fetchUserDetails = useCallback(async () => {
+  //   try {
+  //     const URL = `${process.env.REACT_APP_BACKEND_URL}/api/user-details`;
+  //     const response = await axios({
+  //       url: URL,
+  //       method: 'GET',
+  //       withCredentials: true
+  //     });
+
+  //     dispatch(setUser(response.data.data))
+
+  //     if (response.data.data.logout) {
+  //       dispatch(logout());
+  //       navigate("/email");
+  //     }
+  //   } catch (error) {
+  //     console.log("error", error);
+  //   }
+  // }, [dispatch, navigate]);
 
   useEffect(() => {
     fetchUserDetails();
   }, [fetchUserDetails]);
 
-  // useEffect(() =>{
-  //    const socketConnection = io(process.env.REACT_APP_WEBSOCKET_URL,{
-  //     auth: {token: localStorage.getItem("token")},
-  //     transports: ['websocket'],
-  //     secure: true
-  //    });
-
-  //    socketConnection.on("connect_error", (error) => {
-  //     console.error("Connection error:", error);
-  //   });
-
-  //    socketConnection.on("onlinUser",(data)=>{
-  //     console.log(data);
-  //     dispatch(setOnlineUser(data))
-  //    });
-
-  //    dispatch(setSocketConnection(socketConnection))
-
-  //    return ()=>{
-  //     socketConnection.disconnect()
-  //    }
-  // }, [dispatch])
-
   
-  useEffect(() =>{
-    const socketConnection = io(process.env.REACT_APP_BACKEND_URL,{
-     auth: {
-       token: localStorage.getItem("token")
-     }
-    });
+//   useEffect(() =>{
+//     const socketConnection = io(process.env.REACT_APP_BACKEND_URL,{
+//      auth: {
+//        token: localStorage.getItem("token")
+//      }
+//     });
 
-    socketConnection.on("onlinUser",(data)=>{
-     console.log(data);
-     dispatch(setOnlineUser(data))
-    });
+//     socketConnection.on("onlinUser",(data)=>{
+//      console.log(data);
+//      dispatch(setOnlineUser(data))
+//     });
 
-    dispatch(setSocketConnection(socketConnection))
+//     dispatch(setSocketConnection(socketConnection))
 
-    return ()=>{
-     socketConnection.disconnect()
-    }
- }, [dispatch])
+//     return ()=>{
+//      socketConnection.disconnect()
+//     }
+//  }, [dispatch])
+
+useEffect(() => {
+  const websocketUrl = process.env.REACT_APP_WEBSOCKET_URL || process.env.REACT_APP_BACKEND_URL;
+
+  const socketConnection = io(websocketUrl, {
+    transports: ['websocket', 'polling'], 
+    auth: {
+      token: localStorage.getItem("token") || "" 
+    },
+    withCredentials: true, 
+  });
+
+  socketConnection.on("connect", () => {
+    console.log("Connected to WebSocket");
+  });
+
+  socketConnection.on("connect_error", (error) => {
+    console.error("WebSocket Connection Error:", error);
+  });
+
+  socketConnection.on("onlinUser", (data) => {
+    console.log("Online Users:", data);
+    dispatch(setOnlineUser(data));
+  });
+
+  dispatch(setSocketConnection(socketConnection));
+
+  return () => {
+    socketConnection.disconnect();
+  };
+}, [dispatch]);
+
 
   const basePath = location.pathname === "/"
 
